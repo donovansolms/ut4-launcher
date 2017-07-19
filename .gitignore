@@ -12,3 +12,12 @@
 
 # Project-local glide cache, RE: https://github.com/Masterminds/glide/issues/736
 .glide/
+/.project
+
+# Ignore everything in Vendor
+vendor/*
+# Except the vendor definitions
+!vendor/vendor.json
+# Ignore I'm Done TODO tracking
+.imdone
+/.project
