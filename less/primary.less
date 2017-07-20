@@ -1,0 +1,112 @@
+// out: ../web/css/primary.css, sourcemap: false, compress: false
+/*
+  This is the primary stylesheet for the launcher UI
+ */
+// Responsive media queries
+@desktop: ~"only screen and (min-width: 940px)"; /* tablet, landscape iPad, lo-res laptops ands desktops */
+@tablet: ~"only screen and (min-width: 640px) and (max-width: 939px)"; /* portrait tablets, portrait iPad, landscape e-readers, landscape 800x480 or 854x480 phones */
+@medium: ~"only screen and (min-width: 480px) and (max-width: 639px)"; /* portrait e-readers (Nook/Kindle), smaller tablets @ 600 or @ 640 wide. */
+@phone: ~"only screen and (min-width: 350px) and (max-width: 479px)"; /* smartphones, iPhone, portrait 480x320 phones */
+@mini: ~"only screen and (max-width: 349px)"; /* Bloody tiny */
+
+@import "normalize.less";
+@import "elements.less";
+
+@color-dark-grey: #191919;
+@color-grey: #232323;
+@color-grey-light: #373737;
+@color-grey-text: #838383;
+@color-text: #F1F1F1;
+@color-green: #86D28E;
+@color-green-darken: #6CAA73;
+
+* {
+  color: @color-text;
+  font-family: 'Roboto', sans-serif;
+}
+
+body {
+  background-color: @color-dark-grey;
+}
+
+div.cb {
+  clear: both;
+}
+
+div.backstretch {
+  .opacity(0.7);
+}
+
+div.overlay {
+  background: radial-gradient(transparent 30%, #000000), transparent;
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  z-index:1;
+}
+
+div.launcher {
+  z-index:2;
+  position: relative;
+  margin-left: auto;
+  margin-right: auto;
+  width: 1030px;
+  min-width: 200px;
+  height: 580px;
+  margin-top: 100px;
+  border: 1px solid #FF0000;
+  .border-radius(4px);
+
+  div.navbar {
+    background-color: @color-dark-grey;
+    width: 100%;
+    height: 50px;
+    .border-radius(4px);
+
+    div.top {
+      height: 25px;
+      padding: 5px;
+      padding-right: 10px;
+      text-align: right;
+      color: @color-text;
+
+      span.controls {
+        i.fa {
+          padding-left: 10px;
+          cursor: pointer;
+        }
+      }
+    }
+    div.bottom {
+      height: 50px;
+
+      ul {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+
+      }
+
+      li {
+        float: left;
+      }
+
+      li a {
+        display: block;
+        color: white;
+        text-align: center;
+        text-decoration: none;
+        padding: 5px;
+      }
+
+      li a:hover {
+        background-color: #111111;
+      }
+    }
+  }
+
+
+}
