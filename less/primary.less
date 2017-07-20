@@ -3,15 +3,19 @@
   This is the primary stylesheet for the launcher UI
  */
 // Responsive media queries
-@desktop: ~"only screen and (min-width: 940px)"; /* tablet, landscape iPad, lo-res laptops ands desktops */
-@tablet: ~"only screen and (min-width: 640px) and (max-width: 939px)"; /* portrait tablets, portrait iPad, landscape e-readers, landscape 800x480 or 854x480 phones */
-@medium: ~"only screen and (min-width: 480px) and (max-width: 639px)"; /* portrait e-readers (Nook/Kindle), smaller tablets @ 600 or @ 640 wide. */
-@phone: ~"only screen and (min-width: 350px) and (max-width: 479px)"; /* smartphones, iPhone, portrait 480x320 phones */
-@mini: ~"only screen and (max-width: 349px)"; /* Bloody tiny */
-
+@desktop: ~"only screen and (min-width: 940px)";
+/* tablet, landscape iPad, lo-res laptops ands desktops */
+@tablet: ~"only screen and (min-width: 640px) and (max-width: 939px)";
+/* portrait tablets, portrait iPad, landscape e-readers, landscape 800x480 or 854x480 phones */
+@medium: ~"only screen and (min-width: 480px) and (max-width: 639px)";
+/* portrait e-readers (Nook/Kindle), smaller tablets @ 600 or @ 640 wide. */
+@phone: ~"only screen and (min-width: 350px) and (max-width: 479px)";
+/* smartphones, iPhone, portrait 480x320 phones */
+@mini: ~"only screen and (max-width: 349px)";
+/* Bloody tiny */
 @import "normalize.less";
 @import "elements.less";
-
+@color-dark-grey-border: #131313;
 @color-dark-grey: #191919;
 @color-grey: #232323;
 @color-grey-light: #373737;
@@ -42,13 +46,13 @@ div.overlay {
   height: 100%;
   width: 100%;
   position: absolute;
-  left: 0px;
-  top: 0px;
-  z-index:1;
+  left: 0;
+  top: 0;
+  z-index: 1;
 }
 
 div.launcher {
-  z-index:2;
+  z-index: 2;
   position: relative;
   margin-left: auto;
   margin-right: auto;
@@ -56,57 +60,170 @@ div.launcher {
   min-width: 200px;
   height: 580px;
   margin-top: 100px;
-  border: 1px solid #FF0000;
   .border-radius(4px);
+}
 
-  div.navbar {
-    background-color: @color-dark-grey;
-    width: 100%;
-    height: 50px;
-    .border-radius(4px);
+div.navbar {
+  background-color: @color-dark-grey;
+  width: 100%;
+  .border-radius(4px 4px 0px 0px);
+  border-bottom: 2px solid @color-dark-grey-border;
 
-    div.top {
-      height: 25px;
-      padding: 5px;
-      padding-right: 10px;
-      text-align: right;
-      color: @color-text;
+  div.left {
+    display: inline-block;
+    width: 22%;
+    float: left;
 
-      span.controls {
-        i.fa {
-          padding-left: 10px;
-          cursor: pointer;
-        }
-      }
+    img.logo {
+      width: 30px;
+      padding: 20px 10px 0 20px;
     }
-    div.bottom {
-      height: 50px;
+  }
 
-      ul {
-        list-style-type: none;
-        margin: 0;
-        padding: 0;
-        overflow: hidden;
+  div.right {
+    display: inline-block;
+    width: 77%;
+    float: left;
+    padding-left: 50px;
+  }
 
-      }
+  div.left,
+  div.right {
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+  }
 
-      li {
-        float: left;
-      }
+  div.top {
+    padding: 5px 10px 5px 5px;
+    text-align: right;
+    color: @color-text;
 
-      li a {
-        display: block;
-        color: white;
-        text-align: center;
-        text-decoration: none;
-        padding: 5px;
-      }
-
-      li a:hover {
-        background-color: #111111;
+    span.controls {
+      i.fa {
+        padding-left: 10px;
+        cursor: pointer;
       }
     }
   }
 
+  div.bottom {
+    ul {
+      list-style-type: none;
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+    }
 
+    li {
+      float: left;
+    }
+
+    li a {
+      display: block;
+      color: @color-text;
+      text-align: center;
+      text-decoration: none;
+      padding: 5px 15px;
+
+      &.active {
+        border-top: 4px solid @color-green;
+        background-color: @color-grey;
+      }
+    }
+
+    li a:hover {
+      background-color: #111111;
+    }
+  }
+}
+
+div.body {
+  div.left {
+    top: 63px; /* Yeah, magic */
+    left: 0px;
+    bottom: 0px;
+    position: absolute;
+    background-color: @color-grey;
+    width: 250px;
+    .border-radius(0px 0px 0px 4px);
+
+    ul.menu {
+      list-style-type: none;
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      margin-top: 50px;
+      margin-bottom: 20px;
+
+      li a {
+        display: block;
+        color: @color-grey-text;
+        //text-align: center;
+        text-decoration: none;
+        padding: 20px 35px;
+        border-left: 4px solid transparent;
+
+        &.active {
+          border-left: 4px solid @color-green;
+          background-color: @color-grey-light;
+          color: @color-text;
+        }
+      }
+
+      li a:hover {
+        background-color: @color-grey-light;
+        color: @color-text;
+      }
+    }
+
+    ul.small {
+      li a {
+        color: @color-text;
+        font-size: 14px;
+        padding: 15px 35px;
+
+        i.fa {
+          display: none;
+          float: right;
+        }
+
+        &:hover {
+          i.fa {
+            display: inline-block;
+          }
+        }
+      }
+    }
+
+    div.divider {
+      height: 1px;
+      margin-left: auto;
+      margin-right: auto;
+      width: 85%;
+      border-bottom: 1px solid @color-grey-text;
+    }
+  }
+  div.right {
+    top: 63px; /* Yeah, magic, again */
+    left: 250px;
+    bottom: 0px;
+    position: absolute;
+    background-image: url(/images/launcher-bg.png);
+    width: 780px;
+    overflow-y: scroll;
+    .border-radius(0px 0px 4px 0px);
+
+    div.content {
+      background-image: url(/images/backgrounds/transparent-black.png);
+      background-repeat: repeat;
+      max-width: 55%;
+      padding: 50px;
+
+      h2 {
+        font-size: 32px;
+        text-transform: uppercase;
+      }
+    }
+  }
 }

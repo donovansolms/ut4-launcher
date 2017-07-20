@@ -426,8 +426,8 @@ div.overlay {
   height: 100%;
   width: 100%;
   position: absolute;
-  left: 0px;
-  top: 0px;
+  left: 0;
+  top: 0;
   z-index: 1;
 }
 div.launcher {
@@ -439,49 +439,146 @@ div.launcher {
   min-width: 200px;
   height: 580px;
   margin-top: 100px;
-  border: 1px solid #FF0000;
   border-radius: 4px;
   -moz-border-radius: 4px;
   -webkit-border-radius: 4px;
 }
-div.launcher div.navbar {
+div.navbar {
   background-color: #191919;
   width: 100%;
-  height: 50px;
-  border-radius: 4px;
-  -moz-border-radius: 4px;
-  -webkit-border-radius: 4px;
+  border-radius: 4px 4px 0px 0px;
+  -moz-border-radius: 4px 4px 0px 0px;
+  -webkit-border-radius: 4px 4px 0px 0px;
+  border-bottom: 2px solid #131313;
 }
-div.launcher div.navbar div.top {
-  height: 25px;
-  padding: 5px;
-  padding-right: 10px;
+div.navbar div.left {
+  display: inline-block;
+  width: 22%;
+  float: left;
+}
+div.navbar div.left img.logo {
+  width: 30px;
+  padding: 20px 10px 0 20px;
+}
+div.navbar div.right {
+  display: inline-block;
+  width: 77%;
+  float: left;
+  padding-left: 50px;
+}
+div.navbar div.left,
+div.navbar div.right {
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+}
+div.navbar div.top {
+  padding: 5px 10px 5px 5px;
   text-align: right;
   color: #F1F1F1;
 }
-div.launcher div.navbar div.top span.controls i.fa {
+div.navbar div.top span.controls i.fa {
   padding-left: 10px;
   cursor: pointer;
 }
-div.launcher div.navbar div.bottom {
-  height: 50px;
-}
-div.launcher div.navbar div.bottom ul {
+div.navbar div.bottom ul {
   list-style-type: none;
   margin: 0;
   padding: 0;
   overflow: hidden;
 }
-div.launcher div.navbar div.bottom li {
+div.navbar div.bottom li {
   float: left;
 }
-div.launcher div.navbar div.bottom li a {
+div.navbar div.bottom li a {
   display: block;
-  color: white;
+  color: #F1F1F1;
   text-align: center;
   text-decoration: none;
-  padding: 5px;
+  padding: 5px 15px;
 }
-div.launcher div.navbar div.bottom li a:hover {
+div.navbar div.bottom li a.active {
+  border-top: 4px solid #86D28E;
+  background-color: #232323;
+}
+div.navbar div.bottom li a:hover {
   background-color: #111111;
+}
+div.body div.left {
+  top: 63px;
+  /* Yeah, magic */
+  left: 0px;
+  bottom: 0px;
+  position: absolute;
+  background-color: #232323;
+  width: 250px;
+  border-radius: 0px 0px 0px 4px;
+  -moz-border-radius: 0px 0px 0px 4px;
+  -webkit-border-radius: 0px 0px 0px 4px;
+}
+div.body div.left ul.menu {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  margin-top: 50px;
+  margin-bottom: 20px;
+}
+div.body div.left ul.menu li a {
+  display: block;
+  color: #838383;
+  text-decoration: none;
+  padding: 20px 35px;
+  border-left: 4px solid transparent;
+}
+div.body div.left ul.menu li a.active {
+  border-left: 4px solid #86D28E;
+  background-color: #373737;
+  color: #F1F1F1;
+}
+div.body div.left ul.menu li a:hover {
+  background-color: #373737;
+  color: #F1F1F1;
+}
+div.body div.left ul.small li a {
+  color: #F1F1F1;
+  font-size: 14px;
+  padding: 15px 35px;
+}
+div.body div.left ul.small li a i.fa {
+  display: none;
+  float: right;
+}
+div.body div.left ul.small li a:hover i.fa {
+  display: inline-block;
+}
+div.body div.left div.divider {
+  height: 1px;
+  margin-left: auto;
+  margin-right: auto;
+  width: 85%;
+  border-bottom: 1px solid #838383;
+}
+div.body div.right {
+  top: 63px;
+  /* Yeah, magic, again */
+  left: 250px;
+  bottom: 0px;
+  position: absolute;
+  background-image: url(/images/launcher-bg.png);
+  width: 780px;
+  overflow-y: scroll;
+  border-radius: 0px 0px 4px 0px;
+  -moz-border-radius: 0px 0px 4px 0px;
+  -webkit-border-radius: 0px 0px 4px 0px;
+}
+div.body div.right div.content {
+  background-image: url(/images/backgrounds/transparent-black.png);
+  background-repeat: repeat;
+  max-width: 55%;
+  padding: 50px;
+}
+div.body div.right div.content h2 {
+  font-size: 32px;
+  text-transform: uppercase;
 }
