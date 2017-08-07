@@ -7,6 +7,7 @@ type OSDistribution struct {
 	Distribution           string
 	DistributionVersion    string
 	DistributionPrettyName string
+	HasElectron            bool
 }
 
 // UpdateCheckRequest holds the information for update requests
@@ -19,9 +20,9 @@ type UpdateCheckRequest struct {
 
 // UpdateCheckResponse is the response for update check requests
 type UpdateCheckResponse struct {
-	CurrentVersion  string `json:"current_version"`
 	LatestVersion   string `json:"latest_version"`
 	UpdateAvailable bool   `json:"update_available"`
+	UpdateURL       string `json:"update_url"`
 }
 
 // HashProgressEvent contains the progress event

@@ -1,6 +1,8 @@
 package updater
 
 import (
+	"bytes"
+	"context"
 	"encoding/json"
 	"errors"
 	"fmt"
@@ -13,6 +15,10 @@ import (
 	"regexp"
 	"sort"
 	"strings"
+	"time"
+
+	"github.com/cavaliercoder/grab"
+	"github.com/sethgrid/pester"
 )
 
 // Config is the configuration for the eupdater
@@ -71,11 +77,158 @@ func New(config Config) (*Updater, error) {
 	return &updater, nil
 }
 
+// DownloadUpdate downloads the update given by IsUpdateAvailable and
+// returns true if downloaded successfully
+// Provides a feedback and cancel channels to provide progress to the UI
+func (updater *Updater) DownloadUpdate(
+	packageURL string,
+	savePath string,
+	cancelChan chan bool,
+	feedbackChan chan DownloadProgressEvent) (bool, error) {
+
+	ctx, cancel := context.WithTimeout(context.Background(), 1000*time.Millisecond)
+	defer cancel()
+	client := grab.NewClient()
+	req, err := grab.NewRequest(savePath, packageURL)
+	if err != nil {
+		return false, err
+	}
+	req.WithContext(ctx)
+
+	resp := client.Do(req)
+	if resp.HTTPResponse.StatusCode >= 300 {
+		return false,
+			fmt.Errorf("Received non-2XX status code: %s", resp.HTTPResponse.Status)
+	}
+
+	t := time.NewTicker(time.Second)
+	defer t.Stop()
+
+UpdateLoop:
+	for {
+		select {
+		case <-t.C:
+			// On every tick, send an update
+			feedbackChan <- DownloadProgressEvent{
+				Filename:  resp.Filename,
+				Mbps:      resp.BytesPerSecond() / 1024.00 / 1024.00,
+				ETA:       float64(resp.ETA().Second()),
+				Completed: false,
+				Percent:   resp.Progress() * 100.00,
+			}
+		case <-resp.Done:
+			feedbackChan <- DownloadProgressEvent{
+				Filename:  resp.Filename,
+				Mbps:      resp.BytesPerSecond() / 1024.00 / 1024.00,
+				ETA:       float64(resp.ETA().Second()),
+				Completed: true,
+				Percent:   resp.Progress() * 100.00,
+			}
+			break UpdateLoop
+		case <-cancelChan:
+			cancel()
+			break UpdateLoop
+		}
+	}
+	if err := resp.Err(); err != nil {
+		return false, err
+	}
+	return true, nil
+}
+
 // IsUpdateAvailable checks if a new version is available, returns true
 // with the new version if available
-func (updater *Updater) IsUpdateAvailable() (bool, string, error) {
+func (updater *Updater) IsUpdateAvailable() (bool, string, string, error) {
+	latestVersion, err := updater.GetLatestVersion()
+	if err != nil {
+		return false, "", "", err
+	}
+	osDistribution := OSDistribution{
+		Distribution:           "Optout",
+		DistributionID:         "optout",
+		DistributionPrettyName: "Optout",
+		KernelVersion:          "Linux Optout",
+		DistributionVersion:    "0.0",
+	}
+	var versions []string
+	if updater.config.SendStats {
+		osDistribution = updater.GetOSDistribution()
+		installedVersions, err := updater.GetVersionList()
+		if err == nil {
+			for _, version := range installedVersions {
+				versions = append(versions, version.Version)
+			}
+		}
+	}
+	updateCheckRequest := UpdateCheckRequest{
+		ClientID:       updater.config.ClientID,
+		OS:             osDistribution,
+		Versions:       versions,
+		CurrentVersion: latestVersion.Version,
+	}
+	checkJSON, err := json.Marshal(updateCheckRequest)
+	if err != nil {
+		return false, "", "", err
+	}
 
-	return false, "", nil
+	client := pester.New()
+	client.Concurrency = 1
+	client.MaxRetries = 1
+	client.Backoff = pester.DefaultBackoff
+	req, err := http.NewRequest("POST",
+		fmt.Sprintf("%s/%s/%s", updater.config.UpdateURL, "ut4", "check"),
+		bytes.NewReader(checkJSON))
+	if err != nil {
+		return false, "", "", err
+	}
+	resp, err := client.Do(req)
+	if err != nil {
+		return false, "", "", err
+	}
+	defer resp.Body.Close()
+
+	data, _ := ioutil.ReadAll(resp.Body)
+	fmt.Println(string(data))
+	os.Exit(0)
+	var response UpdateCheckResponse
+	err = json.NewDecoder(resp.Body).Decode(&response)
+	if err != nil {
+		return false, "", "", err
+	}
+	return response.UpdateAvailable,
+		response.LatestVersion,
+		response.UpdateURL,
+		nil
+}
+
+// cloneLatestVersionTo copies the latest version to a new version folder
+// and returns the new base path of the installation
+func (updater *Updater) cloneLatestVersionTo(
+	version string,
+	overwrite bool) (string, error) {
+	newInstallPath, err := updater.GetVersionPath(version, overwrite)
+	if err != nil {
+		err = os.RemoveAll(newInstallPath)
+		if err != nil {
+			// Probably permission error
+			return "", err
+		}
+		err = os.MkdirAll(newInstallPath, 0755)
+		if err != nil {
+			// Probably permission error
+			return "", err
+		}
+	}
+	latestVersion, err := updater.GetLatestVersion()
+	if err != nil {
+		// No installed version?
+		return "", err
+	}
+	err = CopyDir(latestVersion.Path, newInstallPath)
+	if err != nil {
+		return "", err
+	}
+	return newInstallPath, nil
 }
 
 // GetLatestVersion returns the latest version installed
@@ -214,8 +367,16 @@ func (updater *Updater) GetOSDistribution() OSDistribution {
 			osDistribution.KernelVersion = rawVersion
 		}
 	}
-
+	osDistribution.HasElectron = updater.hasElectron()
 	return osDistribution
+}
+
+func (updater *Updater) hasElectron() bool {
+	_, err := exec.Command("which", "electron").Output()
+	if err == nil {
+		return true
+	}
+	return false
 }
 
 // updateVersionMap retrieves the version map from the update server

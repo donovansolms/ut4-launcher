@@ -1,6 +1,19 @@
 {
 	"comment": "",
 	"ignore": "test",
-	"package": [],
+	"package": [
+		{
+			"checksumSHA1": "t540ob/RRCjK0oRSMSGJxoVDRLk=",
+			"path": "github.com/cavaliercoder/grab",
+			"revision": "8c6a987e667b2d9868aff39b52808a150c798929",
+			"revisionTime": "2017-06-17T17:19:21Z"
+		},
+		{
+			"checksumSHA1": "3d2asgDdqVVlnZM7ItGs+vtxjrk=",
+			"path": "github.com/sethgrid/pester",
+			"revision": "99271bb5a99e5769f688c483eabb3c22d71ebf93",
+			"revisionTime": "2017-06-20T21:53:21Z"
+		}
+	],
 	"rootPath": "github.com/donovansolms/ut4-launcher"
 }

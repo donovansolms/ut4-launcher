@@ -29,4 +29,5 @@ func main() {
 	fmt.Println(updater.GetLatestVersion())
 	fmt.Println(updater.GetOSDistribution())
 	fmt.Println(updater.IsUpdateAvailable())
+	//fmt.Println(updater.GetOSDistribution().HasElectron)
 }
