@@ -1,7 +1,11 @@
 // Package main implements the main main runnable UT4 launcher
 package main
 
-import "github.com/donovansolms/ut4-launcher/src/updater"
+import (
+	"fmt"
+
+	"github.com/donovansolms/ut4-launcher/src/updater"
+)
 
 func main() {
 	// TODO: Set up logging
@@ -9,8 +13,8 @@ func main() {
 	//
 	// TODO: Load config file
 	updaterConfig := updater.Config{
-		InstallsDir: "/tmp",
-		WorkingDir:  "/tmp",
+		InstallsDir: "./test/installs",
+		WorkingDir:  "./test/working",
 		UpdateURL:   "http://update.donovansolms.local",
 		SendStats:   true,
 		ClientID:    "001",
@@ -20,4 +24,9 @@ func main() {
 		panic(err)
 	}
 	_ = updater
+
+	fmt.Println(updater.GetVersionList())
+	fmt.Println(updater.GetLatestVersion())
+	fmt.Println(updater.GetOSDistribution())
+	fmt.Println(updater.IsUpdateAvailable())
 }
