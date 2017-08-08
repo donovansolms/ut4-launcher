@@ -1,0 +1,10 @@
+InstallsDir: ./test/installs
+WorkingDir: ./test/working
+Log: /var/log/ut4-updater/debug.log
+LogLevel: DEBUG
+ClientID: 123-456
+Updater:
+  URL: http://update.donovansolms.local
+  SendStats: true
+Server:
+  Port: 5000

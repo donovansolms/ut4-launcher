@@ -405,13 +405,18 @@ template {
   ---------------------------------------------------*/
 * {
   color: #F1F1F1;
+  outline: none;
   font-family: 'Roboto', sans-serif;
 }
 body {
   background-color: #191919;
+  outline: none;
 }
 div.cb {
   clear: both;
+}
+div.push {
+  height: 100px;
 }
 div.backstretch {
   -moz-opacity: 0.7;
@@ -420,6 +425,10 @@ div.backstretch {
   opacity: 0.7;
   -ms-filter: progid:DXImageTransform.Microsoft.Alpha(opacity=70);
   filter: alpha(opacity=70);
+}
+div.loader {
+  display: none;
+  color: #86D28E;
 }
 div.overlay {
   background: radial-gradient(transparent 30%, #000000), transparent;
@@ -581,4 +590,149 @@ div.body div.right div.content {
 div.body div.right div.content h2 {
   font-size: 32px;
   text-transform: uppercase;
+}
+div.body.setup div.full {
+  top: 63px;
+  /* Yeah, magic, again */
+  left: 00px;
+  bottom: 0px;
+  position: absolute;
+  background-image: url(/images/launcher-bg.png);
+  background-size: cover;
+  width: 1030px;
+  overflow-y: scroll;
+  border-radius: 0px 0px 4px 0px;
+  -moz-border-radius: 0px 0px 4px 0px;
+  -webkit-border-radius: 0px 0px 4px 0px;
+}
+div.body.setup div.full div.content {
+  background-image: url(/images/backgrounds/transparent-black.png);
+  background-repeat: repeat;
+  padding: 10px 25px;
+}
+div.body.setup div.full div.content:selected {
+  border: 1px solid #FF0000;
+}
+div.body.setup div.full div.content h2 {
+  font-size: 24px;
+  text-transform: uppercase;
+}
+div.body.setup div.full div.content h2 sup {
+  font-size: 12px;
+  -moz-opacity: 0.6;
+  -khtml-opacity: 0.6;
+  -webkit-opacity: 0.6;
+  opacity: 0.6;
+  -ms-filter: progid:DXImageTransform.Microsoft.Alpha(opacity=60);
+  filter: alpha(opacity=60);
+}
+div.body.setup div.firstrun-notice {
+  border: 1px solid #E8944B;
+  color: #E8944B;
+  border-radius: 4px;
+  -moz-border-radius: 4px;
+  -webkit-border-radius: 4px;
+  padding: 10px;
+  width: 70%;
+  text-align: center;
+}
+div.body.setup div.firstrun-notice.medium {
+  width: 55%;
+}
+div.body.setup div.note {
+  color: #838383;
+  font-size: 14px;
+  padding-bottom: 10px;
+  font-weight: normal;
+}
+div.body.setup div.note.inline {
+  display: inline-block;
+}
+div.body.setup div.note.white {
+  color: #F1F1F1;
+}
+div.body.setup div.row {
+  padding: 10px;
+}
+div.body.setup div.row label {
+  display: block;
+  padding: 10px 0px;
+  font-weight: bold;
+}
+div.body.setup div.row .switch {
+  color: #6f839a;
+  cursor: pointer;
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 1.5em;
+  border-radius: 3px;
+  padding: .020em .3em;
+  display: inline-block;
+  background-color: #3e4956;
+  transition: .15s ease;
+}
+div.body.setup div.row input[type="radio"]:checked + .switch {
+  color: #fff;
+  padding-left: 1em;
+  padding-right: 1em;
+}
+div.body.setup div.row input[type="radio"]:checked + .switch--on {
+  background-color: #86D28E;
+}
+div.body.setup div.row input[type="radio"]:checked + .switch--off {
+  background-color: #853A40;
+}
+div.body.setup div.row div.switches {
+  padding-left: 15px;
+  display: inline-block;
+}
+div.body.setup hr.divider {
+  width: 80%;
+  height: 1px;
+  border: 0;
+  border-bottom: 1px solid #6CAA73;
+  -moz-opacity: 0.5;
+  -khtml-opacity: 0.5;
+  -webkit-opacity: 0.5;
+  opacity: 0.5;
+  -ms-filter: progid:DXImageTransform.Microsoft.Alpha(opacity=50);
+  filter: alpha(opacity=50);
+}
+div.body.setup input {
+  -moz-opacity: 0.9;
+  -khtml-opacity: 0.9;
+  -webkit-opacity: 0.9;
+  opacity: 0.9;
+  -ms-filter: progid:DXImageTransform.Microsoft.Alpha(opacity=90);
+  filter: alpha(opacity=90);
+  color: #191919;
+  font-size: 14px;
+  padding: 5px;
+  width: 600px;
+}
+div.body.setup div.actions {
+  text-align: center;
+  padding: 30px;
+}
+div.body.setup a.button {
+  background-color: #6CAA73;
+  padding: 10px;
+  border-radius: 4px;
+  -moz-border-radius: 4px;
+  -webkit-border-radius: 4px;
+  color: #eeeeee;
+  font-weight: bold;
+  text-decoration: none;
+  -webkit-transition: all 0.2s ease-out;
+  -moz-transition: all 0.2s ease-out;
+  -o-transition: all 0.2s ease-out;
+  transition: all 0.2s ease-out;
+}
+div.body.setup a.button:hover {
+  -webkit-transition: all 0.2s ease-out;
+  -moz-transition: all 0.2s ease-out;
+  -o-transition: all 0.2s ease-out;
+  transition: all 0.2s ease-out;
+  color: #ffffff;
+  background-color: #86D28E;
 }

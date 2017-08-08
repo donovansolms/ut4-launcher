@@ -1,0 +1,109 @@
+<!doctype html>
+<html class="no-js" lang="">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>Unreal Tournament 4 Linux Launcher</title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet">
+  <link rel="stylesheet" href="css/font-awesome.min.css">
+  <link rel="stylesheet" href="css/primary.css">
+  <script src="js/jquery-3.2.1.min.js" type="text/javascript"></script>
+  <script src="js/jquery.backstretch.min.js" type="text/javascript"></script>
+  <script src="js/jquery.nicescroll.min.js" type="text/javascript"></script>
+  <script src="js/launcher.js" type="text/javascript"></script>
+</head>
+
+<body>
+  <div class="overlay"></div>
+  <div class="launcher">
+    <div class="navbar">
+      <div class="left">
+        <img src="/images/ut4logo.png" class="logo" />
+      </div>
+      <div class="right">
+        <div class="top">
+          <span class="controls">
+            <!--i class="fa fa-gear"></i-->
+            <!--i class="fa fa-close"></i-->
+            <i class="fa"></i>
+          </span>
+        </div>
+        <div class="bottom">
+          <ul>
+            <li><a href="#" class="active">Unreal Tournament</a></li>
+          </ul>
+          <div class="cb"></div>
+        </div>
+      </div>
+      <div class="cb"></div>
+    </div>
+    <div class="body setup">
+      <div class="full" id="content_pane">
+        <div class="content">
+          <h2>Launcher Setup <sup>step 2 of 2</sup></h2>
+          <div class="firstrun-notice medium">
+            The following actions will be taken on your system. Please confirm.
+          </div>
+          <ul>
+            <li>Create directory if it doesn;t exist</li>
+          </ul>
+          <form>
+            <div class="row">
+              <label for="installDir">UT4 Versions Installation Directory</label>
+              <div class="note">
+                This is the location where one (or multiple) UT4 versions will be stored.
+                You need around 20GB per version.
+              </div>
+              <!-- TODO: Add browse button -->
+              <input type="text" name="installDir" placeholder="/home/user/path/to/installations (absolute path required)"></input>
+            </div>
+            <hr class="divider"/>
+            <div class="row">
+              <label for="installDir">Working Directory</label>
+              <div class="note">
+                Updates are downloaded and repackaged in this directory. You need around 10GB - 20GB for repackaging.
+                <br/>
+                You can set it to the same path as the installation directory.
+              </div>
+              <!-- TODO: Add browse button -->
+              <input type="text" name="installDir" placeholder="/home/user/path/to/installations (absolute path required)"></input>
+            </div>
+            <div class="row actions">
+
+              <a href="#" class="button" id="configure">Continue</a>
+              <div id="loader" class="dn loader">
+                <img src="images/loader.svg"/><br/>
+                please wait
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+<script type="text/javascript">
+function isElectron() {
+    if (typeof window !== 'undefined' && window.process && window.process.type === 'renderer') {
+        return true;
+    }
+    if (typeof process !== 'undefined' && process.versions && !!process.versions.electron) {
+        return true;
+    }
+    return false;
+}
+
+$('#configure').bind('click', function(){
+  //
+  $('#configure').hide();
+  $('#loader').show();
+  // Make API call to the server with the new settings
+
+  document.location = "/confirm.html";
+});
+</script>
+</html>
