@@ -1,3 +1,5 @@
+*This project is incomplete and has been abandoned*
+
 # Unreal Tournament 4 Launcher for Linux
 
 An Unreal Tournament 4 launcher and incremental updater for Linux
